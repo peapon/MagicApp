@@ -1,0 +1,8 @@
+<config>
+	<Columns>/Items/Item1;/Items/Item2;/Items/Item3</Columns>
+	<Sheet>Sheet1</Sheet>
+	<FirstRowAsTitle>1</FirstRowAsTitle>
+	<Find>/Items/Item1</Find>
+	<Body>/Items/Item2</Body>
+	<Connection>/Items/Item3</Connection>
+</config>
