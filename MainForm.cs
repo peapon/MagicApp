@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Threading;
+using System.IO;
 
 namespace MagicApp
 {
@@ -27,6 +28,7 @@ namespace MagicApp
 			// The InitializeComponent() call is required for Windows Forms designer support.
 			//
 			InitializeComponent();
+			CenterToScreen();
 			
 			//
 			// TODO: Add constructor code after the InitializeComponent() call.
@@ -51,6 +53,11 @@ namespace MagicApp
 		{
 			string excel = textExcelFile.Text;
 			string folder = textFolder.Text;
+			if(!File.Exists(excel) || !File.Exists(folder))
+			{
+				MessageBox.Show("没有选择文件或文件夹，或者是选择的文件或文件夹不正确，请重新选择！！！","警告");
+				return;
+			}
 			timerProgress.Start();
 			//Thread.Sleep(1000);
 			mp.Process(excel, folder);
