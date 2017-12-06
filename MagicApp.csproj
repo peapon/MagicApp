@@ -66,6 +66,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigReader.cs" />
+    <Compile Include="ExcelHelper.cs" />
+    <Compile Include="FilterToSheetForm.cs" />
+    <Compile Include="FilterToSheetForm.Designer.cs">
+      <DependentUpon>FilterToSheetForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FiltToSheetProcessor.cs" />
     <Compile Include="MagicProcessor.cs" />
     <Compile Include="MainForm.cs" />
     <Compile Include="MainForm.Designer.cs">
@@ -73,13 +79,23 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RenameBySNForm.cs" />
+    <Compile Include="RenameBySNForm.Designer.cs">
+      <DependentUpon>RenameBySNForm.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="FilterToSheetForm.resx">
+      <DependentUpon>FilterToSheetForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RenameBySNForm.resx">
+      <DependentUpon>RenameBySNForm.Designer.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

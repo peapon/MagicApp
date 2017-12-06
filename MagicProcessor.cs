@@ -8,6 +8,7 @@
  */
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 using NPOI.HSSF.UserModel;
@@ -23,8 +24,6 @@ namespace MagicApp
 	{
 		private string fileName = null; //文件名
 		private string folderName = null;
-        private IWorkbook workbook = null;
-        private FileStream fs = null;
         private int current;
         private int totalRows;
 
@@ -38,13 +37,14 @@ namespace MagicApp
 			ConfigReader cr = new ConfigReader();
 			fileName = excel;
 			folderName = folder;
+			ExcelHelper eh = new ExcelHelper(fileName);
 			List<string> columns = cr.GetAllReadingColumn("config.xml");
 			string sheetName = cr.GetSheetName("config.xml");
 			bool isFirstRowColumn = cr.IsFirstRowColumn("config.xml");
 			string find = cr.GetColumnFind("config.xml");
 			string body = cr.GetColumnBody("config.xml");
 			string connection = cr.GetColumnConnection("config.xml");
-			DataTable dt = LoadExcelToDataTable(sheetName, isFirstRowColumn);
+			DataTable dt = eh.ExcelToDataTable(sheetName, isFirstRowColumn);
 			totalRows = dt.Rows.Count;
 			current = Exacute(dt, find, body, connection);
 			return current;
@@ -67,14 +67,27 @@ namespace MagicApp
 				string findRet = datatble.Rows[i][find].ToString();
 				string bodyRet = datatble.Rows[i][body].ToString();
 				string connectionRet = datatble.Rows[i][connection].ToString();
+				string dar = GetDARNumber(connectionRet);
 				if(FileExistInFolder(findRet,bodyRet))
 				{
-					RenameFile(findRet, bodyRet, connectionRet);
+					RenameFile(findRet, bodyRet, dar);
 				}
 				current = i;
 			}
 			// 如果处理未完成，考虑失败的数目
 			return current;
+		}
+		
+		private string GetDARNumber(string connection)
+		{
+			string ret = connection;
+			string[] sArray = ret.Split(new Char[] { ' '}, StringSplitOptions.RemoveEmptyEntries);
+			ret = "";
+			if(sArray.Length > 1)
+			{
+				ret = sArray[1];
+			}
+			return ret;
 		}
 		
 		private bool FileExistInFolder(string find, string body)
@@ -88,84 +101,6 @@ namespace MagicApp
 			string srcFileName = folderName + "\\" + find + "." + body;
 			string destFileName = folderName + "\\" + connection + "+" + body;
 			File.Move(srcFileName, destFileName);
-		}
-		
-		private DataTable LoadExcelToDataTable(string sheetName, bool isFirstRowColumn)
-		{
-			ISheet sheet = null;
-            DataTable data = new DataTable();
-            int startRow = 0;
-            try
-            {
-                fs = new FileStream(fileName, FileMode.Open, FileAccess.Read);
-                if (fileName.IndexOf(".xlsx") > 0) // 2007版本
-                    workbook = new XSSFWorkbook(fs);
-                else if (fileName.IndexOf(".xls") > 0) // 2003版本
-                    workbook = new HSSFWorkbook(fs);
-
-                if (sheetName != null)
-                {
-                    sheet = workbook.GetSheet(sheetName);
-                    if (sheet == null) //如果没有找到指定的sheetName对应的sheet，则尝试获取第一个sheet
-                    {
-                        sheet = workbook.GetSheetAt(0);
-                    }
-                }
-                else
-                {
-                    sheet = workbook.GetSheetAt(0);
-                }
-                if (sheet != null)
-                {
-                    IRow firstRow = sheet.GetRow(0);
-                    int cellCount = firstRow.LastCellNum; //一行最后一个cell的编号 即总的列数
-
-                    if (isFirstRowColumn)
-                    {
-                        for (int i = firstRow.FirstCellNum; i < cellCount; ++i)
-                        {
-                            ICell cell = firstRow.GetCell(i);
-                            if (cell != null)
-                            {
-                                string cellValue = cell.StringCellValue;
-                                if (cellValue != null)
-                                {
-                                    DataColumn column = new DataColumn(cellValue);
-                                    data.Columns.Add(column);
-                                }
-                            }
-                        }
-                        startRow = sheet.FirstRowNum + 1;
-                    }
-                    else
-                    {
-                        startRow = sheet.FirstRowNum;
-                    }
-
-                    //最后一列的标号
-                    int rowCount = sheet.LastRowNum;
-                    for (int i = startRow; i <= rowCount; ++i)
-                    {
-                        IRow row = sheet.GetRow(i);
-                        if (row == null) continue; //没有数据的行默认是null　　　　　　　
-                        
-                        DataRow dataRow = data.NewRow();
-                        for (int j = row.FirstCellNum; j < cellCount; ++j)
-                        {
-                            if (row.GetCell(j) != null) //同理，没有数据的单元格都默认是null
-                                dataRow[j] = row.GetCell(j).ToString();
-                        }
-                        data.Rows.Add(dataRow);
-                    }
-                }
-
-                return data;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Exception: " + ex.Message);
-                return null;
-            }
 		}
 	}
 }

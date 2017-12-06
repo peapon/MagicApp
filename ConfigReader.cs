@@ -74,5 +74,21 @@ namespace MagicApp
 			string ret = xElement.Value;
 			return ret;
 		}
+		
+		public string GetFilterColumn(string path)
+		{
+			XDocument xDoc = XDocument.Load(path);
+			XElement xElement = (XElement)xDoc.Element("config").Element("FilterColumn");
+			string ret = xElement.Value;
+			return ret;
+		}
+		
+		public string GetFilterSheet(string path)
+		{
+			XDocument xDoc = XDocument.Load(path);
+			XElement xElement = (XElement)xDoc.Element("config").Element("FilterSheet");
+			string ret = xElement.Value;
+			return ret;
+		}
 	}
 }

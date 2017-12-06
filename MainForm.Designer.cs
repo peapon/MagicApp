@@ -14,16 +14,11 @@ namespace MagicApp
 		/// Designer variable used to keep track of non-visual components.
 		/// </summary>
 		private System.ComponentModel.IContainer components = null;
-		private System.Windows.Forms.GroupBox groupBox1;
-		private System.Windows.Forms.Button btnStartTask;
-		private System.Windows.Forms.Button btnSelectFile;
-		private System.Windows.Forms.TextBox textExcelFile;
-		private System.Windows.Forms.Button btnSelectFolder;
-		private System.Windows.Forms.TextBox textFolder;
-		private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
-		private System.Windows.Forms.OpenFileDialog openExcelDialog;
-		private System.Windows.Forms.ProgressBar progressBarAll;
-		private System.Windows.Forms.Timer timerProgress;
+		private System.Windows.Forms.TabControl tabCtrlMain;
+		private System.Windows.Forms.TabPage tabRename;
+		private System.Windows.Forms.TabPage tabFilterToSheet;
+		private MagicApp.RenameBySNForm rsForm;
+		private MagicApp.FilterToSheetForm ftsForm;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -42,110 +37,87 @@ namespace MagicApp
 		/// <summary>
 		/// This method is required for Windows Forms designer support.
 		/// Do not change the method contents inside the source code editor. The Forms designer might
-		/// not be able to load this method if it was changed manually.
-		/// </summary>
+		/// private void InitializeComponent()
 		private void InitializeComponent()
 		{
-			this.components = new System.ComponentModel.Container();
-			this.groupBox1 = new System.Windows.Forms.GroupBox();
-			this.progressBarAll = new System.Windows.Forms.ProgressBar();
-			this.btnStartTask = new System.Windows.Forms.Button();
-			this.btnSelectFile = new System.Windows.Forms.Button();
-			this.textExcelFile = new System.Windows.Forms.TextBox();
-			this.btnSelectFolder = new System.Windows.Forms.Button();
-			this.textFolder = new System.Windows.Forms.TextBox();
-			this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
-			this.openExcelDialog = new System.Windows.Forms.OpenFileDialog();
-			this.timerProgress = new System.Windows.Forms.Timer(this.components);
-			this.groupBox1.SuspendLayout();
+			this.tabCtrlMain = new System.Windows.Forms.TabControl();
+			this.tabRename = new System.Windows.Forms.TabPage();
+			this.rsForm = new MagicApp.RenameBySNForm();
+			this.rsForm.TopLevel = false;
+			this.ftsForm = new MagicApp.FilterToSheetForm();
+			this.ftsForm.TopLevel = false;
+			
+			this.tabFilterToSheet = new System.Windows.Forms.TabPage();
+			this.tabCtrlMain.SuspendLayout();
+			this.tabRename.SuspendLayout();
 			this.SuspendLayout();
 			// 
-			// groupBox1
+			// tabCtrlMain
 			// 
-			this.groupBox1.Controls.Add(this.progressBarAll);
-			this.groupBox1.Controls.Add(this.btnStartTask);
-			this.groupBox1.Controls.Add(this.btnSelectFile);
-			this.groupBox1.Controls.Add(this.textExcelFile);
-			this.groupBox1.Controls.Add(this.btnSelectFolder);
-			this.groupBox1.Controls.Add(this.textFolder);
-			this.groupBox1.Location = new System.Drawing.Point(12, 13);
-			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(1119, 146);
-			this.groupBox1.TabIndex = 0;
-			this.groupBox1.TabStop = false;
+			this.tabCtrlMain.Controls.Add(this.tabRename);
+			this.tabCtrlMain.Controls.Add(this.tabFilterToSheet);
+			this.tabCtrlMain.Location = new System.Drawing.Point(1, 1);
+			this.tabCtrlMain.Name = "tabCtrlMain";
+			this.tabCtrlMain.SelectedIndex = 0;
+			this.tabCtrlMain.Size = new System.Drawing.Size(1162, 625);
+			this.tabCtrlMain.TabIndex = 0;
 			// 
-			// progressBarAll
+			// tabRename
 			// 
-			this.progressBarAll.Location = new System.Drawing.Point(25, 106);
-			this.progressBarAll.Name = "progressBarAll";
-			this.progressBarAll.Size = new System.Drawing.Size(835, 23);
-			this.progressBarAll.TabIndex = 5;
+			this.tabRename.Controls.Add(this.rsForm);
+			this.tabRename.Location = new System.Drawing.Point(4, 22);
+			this.tabRename.Name = "tabRename";
+			this.tabRename.Padding = new System.Windows.Forms.Padding(3);
+			this.tabRename.Size = new System.Drawing.Size(1154, 599);
+			this.tabRename.TabIndex = 0;
+			this.tabRename.Text = "根据清单重命名";
+			this.tabRename.UseVisualStyleBackColor = true;
 			// 
-			// btnStartTask
+			// form
 			// 
-			this.btnStartTask.Location = new System.Drawing.Point(877, 106);
-			this.btnStartTask.Name = "btnStartTask";
-			this.btnStartTask.Size = new System.Drawing.Size(215, 23);
-			this.btnStartTask.TabIndex = 4;
-			this.btnStartTask.Text = "开始执行";
-			this.btnStartTask.UseVisualStyleBackColor = true;
-			this.btnStartTask.Click += new System.EventHandler(this.BtnStartTaskClick);
+			this.rsForm.ClientSize = new System.Drawing.Size(1162, 627);
+			this.rsForm.ControlBox = false;
+			this.rsForm.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+			this.rsForm.Location = new System.Drawing.Point(0, 0);
+			this.rsForm.MaximizeBox = false;
+			this.rsForm.MinimizeBox = false;
+			this.rsForm.Name = "form";
+			this.rsForm.Text = "MagicApp";
+			this.rsForm.Visible = true;
+			
+			this.ftsForm.ClientSize = new System.Drawing.Size(1162, 627);
+			this.ftsForm.ControlBox = false;
+			this.ftsForm.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+			this.ftsForm.Location = new System.Drawing.Point(0, 0);
+			this.ftsForm.MaximizeBox = false;
+			this.ftsForm.MinimizeBox = false;
+			this.ftsForm.Name = "form";
+			this.ftsForm.Text = "MagicApp";
+			this.ftsForm.Visible = true;
+			
+			
 			// 
-			// btnSelectFile
+			// tabFilterToSheet
 			// 
-			this.btnSelectFile.Location = new System.Drawing.Point(878, 62);
-			this.btnSelectFile.Name = "btnSelectFile";
-			this.btnSelectFile.Size = new System.Drawing.Size(215, 23);
-			this.btnSelectFile.TabIndex = 3;
-			this.btnSelectFile.Text = "选择文件";
-			this.btnSelectFile.UseVisualStyleBackColor = true;
-			this.btnSelectFile.Click += new System.EventHandler(this.BtnSelectFileClick);
-			// 
-			// textExcelFile
-			// 
-			this.textExcelFile.Location = new System.Drawing.Point(26, 62);
-			this.textExcelFile.Name = "textExcelFile";
-			this.textExcelFile.Size = new System.Drawing.Size(835, 21);
-			this.textExcelFile.TabIndex = 2;
-			this.textExcelFile.Text = "请选择核对的文件";
-			// 
-			// btnSelectFolder
-			// 
-			this.btnSelectFolder.Location = new System.Drawing.Point(877, 21);
-			this.btnSelectFolder.Name = "btnSelectFolder";
-			this.btnSelectFolder.Size = new System.Drawing.Size(215, 23);
-			this.btnSelectFolder.TabIndex = 1;
-			this.btnSelectFolder.Text = "选择文件夹";
-			this.btnSelectFolder.UseVisualStyleBackColor = true;
-			this.btnSelectFolder.Click += new System.EventHandler(this.BtnSelectFolderClick);
-			// 
-			// textFolder
-			// 
-			this.textFolder.Location = new System.Drawing.Point(25, 21);
-			this.textFolder.Name = "textFolder";
-			this.textFolder.Size = new System.Drawing.Size(835, 21);
-			this.textFolder.TabIndex = 0;
-			this.textFolder.Text = "请选择文件夹";
-			// 
-			// openExcelDialog
-			// 
-			this.openExcelDialog.FileName = "选择文件";
-			// 
-			// timerProgress
-			// 
-			this.timerProgress.Interval = 1000;
-			this.timerProgress.Tick += new System.EventHandler(this.TimerProgressTick);
+			this.tabFilterToSheet.Controls.Add(this.ftsForm);
+			this.tabFilterToSheet.Location = new System.Drawing.Point(4, 22);
+			this.tabFilterToSheet.Name = "tabFilterToSheet";
+			this.tabFilterToSheet.Padding = new System.Windows.Forms.Padding(3);
+			this.tabFilterToSheet.Size = new System.Drawing.Size(1154, 599);
+			this.tabFilterToSheet.TabIndex = 1;
+			this.tabFilterToSheet.Text = "筛选到多个Sheet";
+			this.tabFilterToSheet.UseVisualStyleBackColor = true;
 			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1162, 627);
-			this.Controls.Add(this.groupBox1);
+			this.Controls.Add(this.tabCtrlMain);
 			this.Name = "MainForm";
 			this.Text = "MagicApp";
-			this.groupBox1.ResumeLayout(false);
-			this.groupBox1.PerformLayout();
+			this.tabCtrlMain.ResumeLayout(false);
+			this.tabRename.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
